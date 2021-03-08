@@ -22,7 +22,7 @@ public class OfferItem {
     private final Money money;
     private final Date productSnapshotDate;
     private final Discount discount;
-    private int quantity;
+    private final int quantity;
     private final BigDecimal totalCost;
 
     public OfferItem(Product product, Money money, Date productSnapshotDate, int quantity) {
