@@ -19,30 +19,26 @@ import java.util.Objects;
 public class OfferItem {
 
     private final Product product;
-    private final Money money;
     private final Date productSnapshotDate;
     private final Discount discount;
     private final int quantity;
     private final BigDecimal totalCost;
 
-    public OfferItem(Product product, Money money, Date productSnapshotDate, int quantity) {
-        this(product, money, productSnapshotDate, quantity, null);
-    }
 
-    public OfferItem(Product product, Money money, Date productSnapshotDate, int quantity, Discount discount) {
-        this.product = product;
-        this.money = money;
+
+    public OfferItem(String productId, BigDecimal productPrice,String productCurrenty, String productName, Date productSnapshotDate,
+                     String productType, int quantity, BigDecimal discount, String discountCause){
+        this.product = new Product(productId,  productName,productType,new Money(productPrice,productCurrenty));
         this.productSnapshotDate = productSnapshotDate;
-        this.discount = discount;
+        this.discount = new Discount(discountCause,discount);
         this.quantity = quantity;
-
         BigDecimal discountValue = new BigDecimal(0);
         if (discount != null) {
-            discountValue = discountValue.subtract(discount.getDiscount());
+            discountValue = discountValue.subtract(discount);
         }
-
-        this.totalCost = money.getAmount().multiply(new BigDecimal(quantity)).subtract(discountValue);
+        this.totalCost = productPrice.multiply(new BigDecimal(quantity)).subtract(discountValue);
     }
+
 
 
     public Date getProductSnapshotDate() {
@@ -61,9 +57,6 @@ public class OfferItem {
         return product;
     }
 
-    public Money getMoney() {
-        return money;
-    }
 
     public Discount getDiscount() {
         return discount;
@@ -104,7 +97,6 @@ public class OfferItem {
         OfferItem offerItem = (OfferItem) o;
         return quantity == offerItem.quantity &&
                 product.equals(offerItem.product) &&
-                money.equals(offerItem.money) &&
                 productSnapshotDate.equals(offerItem.productSnapshotDate) &&
                 discount.equals(offerItem.discount) &&
                 totalCost.equals(offerItem.totalCost);
@@ -112,6 +104,6 @@ public class OfferItem {
 
     @Override
     public int hashCode() {
-        return Objects.hash(product, money, productSnapshotDate, discount, quantity, totalCost);
+        return Objects.hash(product, productSnapshotDate, discount, quantity, totalCost);
     }
 }
