@@ -7,11 +7,14 @@ public class Product {
     private String id;
     private String type;
     private String name;
+    private Money money;
 
-    public Product(String id, String type, String name) {
+
+    public Product(String id, String type, String name, Money money) {
         this.id = id;
         this.type = type;
         this.name = name;
+        this.money = money;
     }
 
     public String getId() {
@@ -23,7 +26,7 @@ public class Product {
     public String getName() {
         return name;
     }
-
+    public Money getMoney() { return money; }
 
     @Override
     public boolean equals(Object o) {
@@ -32,11 +35,12 @@ public class Product {
         Product product = (Product) o;
         return Objects.equals(id, product.id) &&
                 Objects.equals(type, product.type) &&
-                Objects.equals(name, product.name);
+                Objects.equals(name, product.name) &&
+                Objects.equals(money, product.money);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, name);
+        return Objects.hash(id, type, name, money);
     }
 }
